@@ -39,6 +39,14 @@ Look for, in priority order:
 - **Suggestion** — convention violations from `CLAUDE.md`, missing test assertions that would let regressions slip through, naming/structure clarity wins.
 - **Nitpick** — minor style; mention sparingly and only when worth the noise.
 
+**Inspect for — these drive most of the high-value findings:**
+
+- **Intent match** — does the diff do what the PR title/body claims? Flag scope creep (unrelated changes bundled in) and under-delivery (claimed behavior the diff doesn't actually implement).
+- **Blast radius beyond the diff** — when a signature, exported type, shared helper, or config key changes, check callers/consumers *not in the diff*. Analyze past the hunks even though the resulting comment must still attach to a diff line (or the summary `body`).
+- **Security** — injection (SQL/command/template), authz checks on new or changed endpoints, secrets/keys committed, unsafe deserialization, SSRF/path traversal on user-controlled input, missing input validation at trust boundaries. (Basically, OWASP Top Ten categories.)
+
+**Skip the noise** — don't comment on generated files, lockfiles, vendored dependencies, or the mechanical fallout of a rename/move. Review the *source* of a change, not its churn; comments on mechanical churn bury the actionable findings.
+
 For each finding, identify the **exact file path and line range in the PR diff** — comments only post on lines present in the diff hunks.
 
 ### 4. Post the review
