@@ -1,0 +1,15 @@
+{
+  "name": "my-skills-marketplace",
+  "owner": {
+    "name": "Leonardo T. Fernandes",
+    "email": "me@leofernandes.dev"
+  },
+  "description": "Leo's personal Claude Code skills",
+  "plugins": [
+    {
+      "name": "my-skills",
+      "source": "./my-skills",
+      "description": "Leo's personal collection of Claude Code skills"
+    }
+  ]
+}
