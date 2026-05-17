@@ -30,11 +30,26 @@ my-skills/                        the plugin
 2. Commit and push. **No manifest edits** — `marketplace.json` and `plugin.json`
    never change when you add a skill; the `skills/` directory is auto-discovered.
 
-## Pull updates on other machines
+That's the whole workflow. Pushing is the only manual step.
+
+## How updates reach other machines
+
+`plugin.json` intentionally has **no `version` field**. Per Claude Code's docs,
+when `version` is omitted and the marketplace is hosted in git, *every commit
+automatically counts as a new version*. So each push is picked up without any
+version bookkeeping.
+
+On machines where `my-skills` is installed, Claude Code runs **background
+marketplace auto-updates at startup** — they pull new/changed skills on the next
+launch with no action required. This repo being public means no token or auth is
+needed for that.
+
+To force a refresh mid-session without restarting:
 
 ```
 /plugin marketplace update my-skills-marketplace
 ```
 
-Bump `version` in `my-skills/.claude-plugin/plugin.json` if you want installs pinned
-to explicit releases; otherwise updates track the latest commit.
+> Do **not** add a `version` field back unless you specifically want to pin
+> installs to explicit releases — doing so disables per-commit auto-updates and
+> requires bumping the field on every change.
