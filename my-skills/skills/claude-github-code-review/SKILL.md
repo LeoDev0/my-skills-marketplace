@@ -44,6 +44,7 @@ Look for, in priority order:
 - **Intent match** — does the diff do what the PR title/body claims? Flag scope creep (unrelated changes bundled in) and under-delivery (claimed behavior the diff doesn't actually implement).
 - **Blast radius beyond the diff** — when a signature, exported type, shared helper, or config key changes, check callers/consumers *not in the diff*. Analyze past the hunks even though the resulting comment must still attach to a diff line (or the summary `body`).
 - **Security** — injection (SQL/command/template), authz checks on new or changed endpoints, secrets/keys committed, unsafe deserialization, SSRF/path traversal on user-controlled input, missing input validation at trust boundaries. (Basically, OWASP Top Ten categories.)
+- **Performance regressions visible in the diff** — N+1 queries or network calls in a loop, an algorithmic step gone super-linear on request-scoped/growing data, or expensive work (regex compile, IO, connection setup) repeated inside a hot loop. Only when it's structurally evident from the change — do **not** speculate about allocations, GC, or micro-optimizations that need profiling to confirm; that's noise without benchmark data.
 
 **Skip the noise** — don't comment on generated files, lockfiles, vendored dependencies, or the mechanical fallout of a rename/move. Review the *source* of a change, not its churn; comments on mechanical churn bury the actionable findings.
 
