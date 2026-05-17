@@ -34,7 +34,8 @@ That's the whole workflow. Pushing is the only manual step.
 
 ## How updates reach other machines
 
-`plugin.json` intentionally has **no `version` field**. Per Claude Code's docs,
+`plugin.json` intentionally has **no `version` field**. Per [Claude Code's
+plugin marketplace docs](https://code.claude.com/docs/en/plugin-marketplaces#version-resolution-and-release-channels),
 when `version` is omitted and the marketplace is hosted in git, *every commit
 automatically counts as a new version*. So each push is picked up without any
 version bookkeeping.
