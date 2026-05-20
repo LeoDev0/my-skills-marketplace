@@ -1,8 +1,10 @@
 # my-skills-marketplace
 
 A [Claude Code plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces)
-for my personal skills. Installing once on a machine makes the skills available, and
-they auto-update from this repo — no manual copying into `~/.claude/skills/`.
+for my personal skills. Installing once on a machine makes the skills available and
+Claude Code manages the files — no manual copying into `~/.claude/skills/`. Pulling
+new commits to other machines is two short commands (see [How updates reach other
+machines](#how-updates-reach-other-machines) below).
 
 ## Structure
 
@@ -40,16 +42,32 @@ when `version` is omitted and the marketplace is hosted in git, *every commit
 automatically counts as a new version*. So each push is picked up without any
 version bookkeeping.
 
-On machines where `my-skills` is installed, Claude Code runs **background
-marketplace auto-updates at startup** — they pull new/changed skills on the next
-launch with no action required. This repo being public means no token or auth is
-needed for that.
+On machines where `my-skills` is installed, there are **two paths** to pull a new
+commit. Neither is fully zero-touch on a third-party marketplace like this one — see
+the auto-update note below.
 
-To force a refresh mid-session without restarting:
+**Manual (works out of the box):**
 
 ```
-/plugin marketplace update my-skills-marketplace
+/plugin marketplace update my-skills-marketplace   # fetches updates to disk
+/reload-plugins                                    # loads them into the running session
 ```
+
+The first command refreshes the marketplace catalog and pulls updated plugin
+content; the second activates it in the current session. Restarting Claude Code
+works in place of `/reload-plugins`. See
+[Apply plugin changes without restarting](https://code.claude.com/docs/en/discover-plugins#apply-plugin-changes-without-restarting).
+
+**Opt-in auto-update (per machine, once):**
+
+Per [Configure auto-updates](https://code.claude.com/docs/en/discover-plugins#configure-auto-updates),
+*third-party marketplaces have auto-update disabled by default* — only the official
+Anthropic marketplace is on by default. To enable it for this one: run `/plugin`,
+go to the **Marketplaces** tab, select `my-skills-marketplace`, and choose
+**Enable auto-update**. After that, Claude Code refreshes the marketplace at
+startup; if any plugins changed it shows a notification prompting you to run
+`/reload-plugins` to load them. **The reload step is still required even with
+auto-update on** — auto-update fetches, it doesn't activate.
 
 > Do **not** add a `version` field back unless you specifically want to pin
 > installs to explicit releases — doing so disables per-commit auto-updates and
