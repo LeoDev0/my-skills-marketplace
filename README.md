@@ -22,6 +22,7 @@ my-skills/                        the plugin
 ```
 /plugin marketplace add LeoDev0/my-skills-marketplace
 /plugin install my-skills@my-skills-marketplace
+/reload-plugins
 ```
 
 (Replace `LeoDev0/my-skills-marketplace` with the actual GitHub repo if different.)
